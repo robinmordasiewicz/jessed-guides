@@ -1,6 +1,6 @@
-========================================
 Example #1 - Simple variables and output
 ========================================
+
 The following example shows the Terraform code to:
 
 #. Define an input variable called 'prefix'
@@ -34,13 +34,14 @@ The following example shows the Terraform code to:
 
 **NOTE**: Terraform Runs that only involve built-in providers like *null-resource* do not require *terraform* or *provider* blocks. This makes it very easy to create trivial runs for the purpose of testing Terraform syntax and behavior. The example above was something I wrote when I first started using Terraform to test the use of a `null-resource`_.
 
----
 Lab
 ---
+
 Now we're going to run through the one and only lab including with this beginners guide. This is simply to demonstrate the expected output of each of the main terraform commands that you'll use when creating yoru own Runs.  To run this example you can either use the code in the ./example_1/ directory, which matches the example above, or create a new directory and copy/paste the example above into a file called *main.tf*. 
 
 terraform init
---------------
+~~~~~~~~~~~~~~
+
 In the directory with the *main.tf*, initialize Terraform:
 ::
 
@@ -56,8 +57,9 @@ Once that command completes you'll have a new hidden directory and a new hidden 
     -rw-r--r--@ 1 driskill  1437522721   359 Oct 15 11:53 main.tf
 
 terraform plan
---------------
-Now we'll run the 'terrform plan'. Technically this is an optional step as the 'terraform apply' will go through the same process out of necessity; however, finding problems *before* you starting deploying resources is always better. For that reason I recommend running 'terraform plan' prior to every 'terraform apply'.
+~~~~~~~~~~~~~~
+
+Now we'll run the 'terraform plan'. Technically this is an optional step as the 'terraform apply' will go through the same process out of necessity; however, finding problems *before* you starting deploying resources is always better. For that reason I recommend running 'terraform plan' prior to every 'terraform apply'.
 
 ::
 
@@ -84,7 +86,8 @@ The output of the 'terraform plan' command will show everything Terraform will a
       + prefix_name = "ProjectName"
 
 terraform apply
----------------
+~~~~~~~~~~~~~~~
+
 And finally we will run 'terraform apply'. Optionally you can add the '--auto-approve' argument to avoid the standard manual approval:
 ::
 
@@ -138,7 +141,8 @@ At this point you can inspect the various resources Terraform created using the 
     }
 
 terraform destroy
------------------
+~~~~~~~~~~~~~~~~~
+
 Finally, we're going to 'destroy' the Resources created by this run with the 'terraform destroy' command. Like the 'terraform apply' command, the 'terraform --destroy' command supports the '--auto-approve' command-line argument:
 ::
 
@@ -168,9 +172,6 @@ Finally, we're going to 'destroy' the Resources created by this run with the 'te
 
 If you look in the directory now you'll see that the 'terraform.state' file is smaller, which is because we have no more created resources. You'll also notice a new file called 'terraform.state.backup'. The *terraform.state.backup* file is a copy of the 'terraform.state' file created immediately before any changes were made.
 
-
-
-
 .. _Providers: Providers.html
 .. _Registry: Registry.html
 .. _Configurations: Configurations.html
@@ -186,12 +187,3 @@ If you look in the directory now you'll see that the 'terraform.state' file is s
 .. _Example 3: example_3.html
 .. _Example 4: example_4.html
 
-.. _NEXT: example_2.html
-.. _BACK: Tips_and_Tricks.html
-.. _HOME: Index.html
-
-`NEXT`_
-
-`BACK`_
-
-`HOME`_
