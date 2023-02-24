@@ -37,18 +37,3 @@ Even a `variable <https://www.terraform.io/language/values/variables>`_ is a typ
 
 Configuration blocks can become quite complex, as you'll see as soon as you take a look at the configuration for deploying a VM into any cloud. I'm not providing an example of a complex configuration block because that isn't a Day-1 topic, but if you are curious here is the documentation for the `azurerm_linux_virtual_machine <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine>`_ resource in Azure. This example is just about as simple as it gets for deploying a VM in Azure.
 
-.. _Providers: Providers.html
-.. _Registry: Registry.html
-.. _Configurations: Configurations.html
-.. _Resources: Resources.html
-.. _Modules: Modules.html
-.. _Runs: Runs.html
-.. _Variables: Variables.html
-.. _Initialization: Initialization.html
-.. _Execution: Execution.html
-.. _Tips and Tricks: Tips_and_Tricks.html
-.. _Example 1: example_1.html
-.. _Example 2: example_2.html
-.. _Example 3: example_3.html
-.. _Example 4: example_4.html
-

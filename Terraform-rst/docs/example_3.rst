@@ -115,18 +115,3 @@ The module main.tf file defines the actions that will be taken by the module. Th
 
 The module outputs.tf file sends the outputs back to the main terraform execution. These outputs can then be used as input variables to other configuration blocks, including other modules. They can also be used in output blocks defined in the main directory to print the values after the Terraform Run completes. One very common example of this is printing the IP addresses of virtual-machines instantiated by the Terraform run.
 
-.. _Providers: Providers.html
-.. _Registry: Registry.html
-.. _Configurations: Configurations.html
-.. _Resources: Resources.html
-.. _Modules: Modules.html
-.. _Runs: Runs.html
-.. _Variables: Variables.html
-.. _Initialization: Initialization.html
-.. _Execution: Execution.html
-.. _Tips and Tricks: Tips_and_Tricks.html
-.. _Example 1: example_1.html
-.. _Example 2: example_2.html
-.. _Example 3: example_3.html
-.. _Example 4: example_4.html
-

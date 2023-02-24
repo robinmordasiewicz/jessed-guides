@@ -1,9 +1,6 @@
 Resources
 =========
 
-Overview
---------
-
 A Terraform `resource <https://www.terraform.io/docs/glossary#resource>`_ is a block that describes an infrastructure object. For example, you may have a "resource" that describes a virtual-machine in Azure. The resource would describe everything about that VM, like the number of CPU cores, amount of memory, disk size, and number of interfaces. Terraform will send that resource definition to the appropriate `provider <https://www.terraform.io/docs/glossary#terraform-provider>`_ so that the described object can be created.
 
 Example

@@ -172,18 +172,3 @@ Finally, we're going to 'destroy' the Resources created by this run with the 'te
 
 If you look in the directory now you'll see that the 'terraform.state' file is smaller, which is because we have no more created resources. You'll also notice a new file called 'terraform.state.backup'. The *terraform.state.backup* file is a copy of the 'terraform.state' file created immediately before any changes were made.
 
-.. _Providers: Providers.html
-.. _Registry: Registry.html
-.. _Configurations: Configurations.html
-.. _Resources: Resources.html
-.. _Modules: Modules.html
-.. _Runs: Runs.html
-.. _Variables: Variables.html
-.. _Initialization: Initialization.html
-.. _Execution: Execution.html
-.. _Tips and Tricks: Tips_and_Tricks.html
-.. _Example 1: example_1.html
-.. _Example 2: example_2.html
-.. _Example 3: example_3.html
-.. _Example 4: example_4.html
-
