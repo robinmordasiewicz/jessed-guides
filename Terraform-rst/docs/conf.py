@@ -26,8 +26,12 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
     'sphinx_rtd_theme',
-    'sphinx_terraform'
+    'sphinx_copybutton'
 ]
+
+copybutton_prompt_text = "$ "
+copybutton_only_copy_prompt_lines = True
+copybutton_remove_prompts = True
 
 todo_include_todos = True
 
@@ -36,8 +40,6 @@ source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
-
-terraform_sources = "../terraform"
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'

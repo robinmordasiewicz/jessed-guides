@@ -3,12 +3,12 @@ Providers
 
 A `Terraform Provider <https://www.terraform.io/docs/glossary#terraform-provider>`_ is a plugin that Terraform calls in order to communicate with the service or resource being configured. For example, in order to configure Azure resources Terraform uses the `azurerm <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs>`_ provider. Providers are *usually* written by the organization that provides the product being configured, though that is not always the case. For example, the `BIG-IP <https://registry.terraform.io/providers/F5Networks/bigip/1.15.2>`_ is provided by F5, but the Azure provider is provided directly by Hashicorp (the same company that created Terraform).
 
-The provider(s) required for the Terraform Run are identified by Terraform when you run a ``terraform init``, and are *automatically* downloaded. There are a two parts to provider configuration. The first declares that the Provider is required, and the second is the actual Provider configuration.
+There are a two parts to a provider configuration. The first declares that a provider is required, and the second is the actual provider configuration. The provider required for the Terraform run is downloaded by Terraform when you run ``terraform init``.
 
 Provider Declaration
 --------------------
 
-Here is an example of the Provider declaration:
+Here is an example of the provider declaration:
 ::
 
     terraform {
