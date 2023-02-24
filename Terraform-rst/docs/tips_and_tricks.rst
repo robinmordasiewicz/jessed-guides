@@ -32,7 +32,8 @@ This command in my ~/.bashrc sources the ~/.terraform_aliases.bash file, ensurin
 
     source ~/.terraform_aliases.bash
 
-**NOTE**: The aliases could just as easily be located directly in the ~/.bashrc rather than being sourced. I source the file rather than having them in ~/.bashrc because I have (literally) hundreds of aliases, and breaking them into separate files helps keep them organized.
+.. note::
+   The aliases could just as easily be located directly in the ~/.bashrc rather than being sourced. I source the file rather than having them in ~/.bashrc because I have (literally) hundreds of aliases, and breaking them into separate files helps keep them organized.
 
 To use an alias you just type the alias name as if it were a command. To use the 'tfaa' alias I would enter the following on the command line:
 ::
@@ -89,9 +90,11 @@ If you organize your lab naming scheme around a single *prefix* value that is in
 
 Using this trick will spare you a lot of time if you start to create Terraform Runs with many levels of dependencies.
 
-**NOTE**: This trick is only really only useful when you are working in an environment that allows a simple, hands-off group deletion option, like deleting an Azure Resource-Group or Kubernetes namesspace. GCP, and especially AWS, have no simple administrative container that can be deleted at-will to destroy all of the grouped objects.
+.. note::
+   This trick is only really only useful when you are working in an environment that allows a simple, hands-off group deletion option, like deleting an Azure Resource-Group or Kubernetes namesspace. GCP, and especially AWS, have no simple administrative container that can be deleted at-will to destroy all of the grouped objects.
 
-**WARNING**: The corallary to the note above is that you should avoid deleting your terraform state file in all other cases; especially when working with AWS or GCP. I once had a corrupted deployment to AWS that caused the 'terraform destroy' command to fail due to an AWS error, so I had to track down every oject I had deployed with Terraform and delete them all manually. This was an incredible PITA. Deleting your terraform.state file without first running the 'terraform destroy' command will result in the same thing: to clean up your deployed resources you'll end up having to track all of them down to manually delete them. You have been warned.
+.. warning::
+   The corallary to the note above is that you should avoid deleting your terraform state file in all other cases; especially when working with AWS or GCP. I once had a corrupted deployment to AWS that caused the 'terraform destroy' command to fail due to an AWS error, so I had to track down every oject I had deployed with Terraform and delete them all manually. This was an incredible PITA. Deleting your terraform.state file without first running the 'terraform destroy' command will result in the same thing: to clean up your deployed resources you'll end up having to track all of them down to manually delete them. You have been warned.
 
 Selective apply / destroy
 -------------------------
@@ -105,13 +108,15 @@ To use --target=name you enter the terraform destroy or plan command like you no
 
 That command will destroy the resources created in my 'bigip' module and nothing else. 
 
-**NOTE**: If the resource you are trying to destroy in this way is a dependency of a later resource, the command will fail. 
+.. note::
+   If the resource you are trying to destroy in this way is a dependency of a later resource, the command will fail. 
 
 To re-deploy I have two options:
 #. Use the '--target=' argument again when running the 'terraform apply' command
 #. Run 'terraform apply [--auto-approve]' without the '--target=' argument and jsut let Terraform deploy everything that isn't already deployed (as per the terraform.state file).
 
-**NOTE**: According to Terraform the '--target=<name>' argument should only be used for debugging/testing.
+.. note::
+   According to Terraform the '--target=<name>' argument should only be used for debugging/testing.
 
 Terraform State file manipulation
 ---------------------------------

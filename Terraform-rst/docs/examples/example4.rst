@@ -1,9 +1,10 @@
-Example #4 - module usage with ternary conditional and 'count' meta-argument
-============================================================================
+Module usage with ternary conditional and 'count' meta-argument
+===============================================================
 
-**NOTE**: In order to execute this example you must have access to the Azure CLI and it must be authenticated to work with Azure.
+.. note:
+   In order to execute this example you must have access to the Azure CLI and it must be authenticated to work with Azure.
 
-**NOTE**: This example will create three Azure Resource-Groups called 'my_lab-1-rg', 'my_lab-2-rg', and so on.
+   This example will create three Azure Resource-Groups called 'my_lab-1-rg', 'my_lab-2-rg', and so on.
 
 The following example illustrates the Terraform code:
 1. Usage of the 'vars.tf', 'outputs.tf', and 'main.tf' as separate files

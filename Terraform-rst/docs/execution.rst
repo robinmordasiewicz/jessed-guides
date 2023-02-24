@@ -1,5 +1,5 @@
-Execution: Plan, Apply, Destroy
-===============================
+Plan Apply Destroy
+==================
 
 `terraform plan <https://www.terraform.io/cli/commands/plan>`_ is used to perform an exhaustive check of your code, very similar to a 'dry-run' option. It will check the syntax, variable assignments, and attempt to identify circular references. <Circular references occur when one resource depends on another, but that other object depends on the first one. Sometimes the dependency chain can include three or four objects, making identification of the circular reference difficult.>`_
 
@@ -21,7 +21,9 @@ With a Bash alias (see `Tips and Tricks`_) that command can be reduced to:
 
     tfda; tfda; tfda
 
-**NOTE**: The 'terraform apply' and 'terraform destroy' commands both require interactive approval before actually making any changes. To bypass the interactive approval use the '--auto-approve' command-line argument as shown here:
+.. note::
+   The 'terraform apply' and 'terraform destroy' commands both require interactive approval before actually making any changes. To bypass the interactive approval use the '--auto-approve' command-line argument as shown here:
+
 ::
 
     terraform apply --auto-approve

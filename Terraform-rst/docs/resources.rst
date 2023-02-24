@@ -21,5 +21,6 @@ The official Terraform documentation for Resource blocks can be found `here <htt
 
 Resources are easily the most common element of Terraform configuration object. All of the resources supported by a particular provider are described in the provider documentation. For example, here is the documentation for the `azurerm_linux_virtual_machine <https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine>`_ resource.
 
-**Note**: If you review the documentation you'll notice that the example near the top starts with the creation of the a virtual-network, followed by a subnet, an interface, and *finally* an example of the resource we are actually talking about. This is a common theme in the Terraform documentation. Terraform examples commonly include every other resource required by the object in question.
+.. note::
+   If you review the documentation you'll notice that the example near the top starts with the creation of the a virtual-network, followed by a subnet, an interface, and *finally* an example of the resource we are actually talking about. This is a common theme in the Terraform documentation. Terraform examples commonly include every other resource required by the object in question.
 

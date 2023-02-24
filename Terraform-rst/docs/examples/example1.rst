@@ -1,5 +1,5 @@
-Example #1 - Simple variables and output
-========================================
+Simple variables and output
+===========================
 
 The following example shows the Terraform code to:
 
@@ -32,7 +32,8 @@ The following example shows the Terraform code to:
       value = local.rg_name
     }
 
-**NOTE**: Terraform Runs that only involve built-in providers like *null-resource* do not require *terraform* or *provider* blocks. This makes it very easy to create trivial runs for the purpose of testing Terraform syntax and behavior. The example above was something I wrote when I first started using Terraform to test the use of a `null-resource`_.
+.. note::
+   Terraform Runs that only involve built-in providers like *null-resource* do not require *terraform* or *provider* blocks. This makes it very easy to create trivial runs for the purpose of testing Terraform syntax and behavior. The example above was something I wrote when I first started using Terraform to test the use of a `null-resource`_.
 
 Lab
 ---

@@ -1,5 +1,5 @@
-Example #2 - object output
-==========================
+Object Output
+=============
 
 The following example illustrates the Terraform code to:
 
@@ -52,5 +52,6 @@ The following example illustrates the Terraform code to:
     output "law"  { value = local.log_analytics }
     output "lb" { value = local.lb }
 
-**Note**: Notice the use of the `format <https://www.terraform.io/language/functions/format>`_ function to build a dynamic local value using the variable name.
+.. note::
+   Notice the use of the `format <https://www.terraform.io/language/functions/format>`_ function to build a dynamic local value using the variable name.
 

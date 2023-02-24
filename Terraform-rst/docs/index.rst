@@ -1,23 +1,25 @@
-Day 0 Beginners Guide to Terraform
-==================================
+Beginners Guide to Terraform
+============================
+
+.. topic:: Beginners Guide to Terraform
+
+   This guide is a simple introduction to `Terraform <https://www.terraform.io/intro>`_, and we will be going over several of the basic elements of a basic Terraform deployment.
+
 
 .. toctree::
-   :caption: Contents:
 
-   Providers.rst
-   Registry.rst
-   Configurations.rst
-   Resources.rst
-   Modules.rst
-   Runs.rst
-   Variables.rst
-   Initialization.rst
-   Execution.rst
-   Tips_and_Tricks.rst
-   example_1.rst
-   example_2.rst
-   example_3.rst
-   example_4.rst
+   quickstart.rst
+   providers.rst
+   registry.rst
+   configurations.rst
+   resources.rst
+   modules.rst
+   runs.rst
+   variables.rst
+   initialization.rst
+   execution.rst
+   tips_and_tricks.rst
+   examples/index.rst
 
 Motivation
 ----------
@@ -31,88 +33,4 @@ Organization
 
 This guide is broken into several small parts intended to let you skip the frustration of discovering them yourself. It definitely does not replace the `Terraform Documentation <https://www.terraform.io/intro>`_, but as you'll discover if you click the link, this guide will reduce the time you need to "internalize" how to use Terraform.
 
-Sections 12-15 contains simple examples to illustrate how several Terraform concepts fit together. The code for each example is available not only on the example page, but in the corresponding .../example_*/ directory.
-
-Terraform
----------
-
-As stated, this guide is a simple introduction to `Terraform <https://www.terraform.io/intro>`_, and we will be going over several of the basic elements of a basic Terraform deployment. Those elements are:
-
-#. `tl;dr Quick Start`_
-#. `Providers`_
-#. `Registry`_
-#. `Configurations`_
-#. `Resources`_
-#. `Modules`_
-#. `Runs`_
-#. `Variables`_
-#. `Initialization`_
-#. `Execution`_: Plan, Apply, Destroy
-#. `Tips and Tricks`_
-#. `Example 1`_
-    * Variables, local values, null_resource resource, and outputs
-#. `Example 2`_
-    * Variables, local values with embedded values, outputs
-#. `Example 3`_
-    * Module creation and usage, module outputs
-#. `Example 4`_
-    * Module usage with ternary conditional and 'count' meta-argument
-
-tl;dr Quick Start
------------------
-
-#. Write your Terraform code
-
-   * I describe this below; however, if you are actually starting with this know that I have experienced your pain and have no sympathy. Helping you avoid that pain is the whole purpose of this guide.
-
-#. ``terraform init``
-
-   * Initialize your TF environment, which includes a basic syntax check.
-   * NOTE: This will download the required providers and enumerate your modules.
-
-#. ``terraform plan``
-
-   * More thorough syntax check
-   * Determine order of operations based on dependencies
-   * Logic check - checks for unmet dependencies, circular logic, missing variables, etc...
-
-#. ``terraform apply [--auto-approve]``
-
-   * Deploy the configuration.
-   * Communication/authentication/authorization issues will be caught at this stage.
-   * Failures will *not* be rolled back automatically.
-
-#. ``terraform destroy [--auto-approve]``
-
-   * Destroy/delete deployed objects
-   * Reverses the order of operations determined at the time of deployment
-
-Examples
---------
-
-`Example 1`_
-~~~~~~~~~~~~
-
-* Create variable
-* Create local value using variable value
-* Create *null_resource* to call a bash command
-* Create Output blocks to print the values of the variable and local value
-
-`Example 2`_
-~~~~~~~~~~~~
-
-* Create variable
-* Create local values containing several embedded values using the variable to build the names
-* Create Output blocks to print the variable and local values
-
-`Example 3`_
-~~~~~~~~~~~~
-
-* Create and run a module that creates an Azure resource-group
-* Create output blocks that print the values of the module
-
-`Example 4`_
-~~~~~~~~~~~~
-
-* Example usage of the ternary conditional and the `count <https://developer.hashicorp.com/terraform/language/meta-arguments/count>`_ meta-argument
 

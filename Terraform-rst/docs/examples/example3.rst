@@ -1,11 +1,13 @@
-Example #3 - module creation and usage
-========================================
+Module Creation and Usage
+=========================
 
 `Official Documentation <https://developer.hashicorp.com/terraform/tutorials/modules/module>`_
 
-**NOTE**: In order to execute this example you must have access to the Azure CLI and it must be authenticated to work with Azure.
+.. note::
+   In order to execute this example you must have access to the Azure CLI and it must be authenticated to work with Azure.
 
-**NOTE**: This example will create two Azure Resource-Groups called 'my_lab-1-rg' and 'my_lab-2-rg'.
+.. note::
+   This example will create two Azure Resource-Groups called 'my_lab-1-rg' and 'my_lab-2-rg'.
 
 The following example illustrates the Terraform code:
 
@@ -30,7 +32,8 @@ In this example we are creating a single module called *resource_group*. We are 
 
 The ./modules/resource_group/variables.tf file defines the input variables required by the module. All of the variables defined in the modules *variables.tf* file must be provided when the module is called from main.tf. If a variable is defined in the ./modules/*<module>*/variables.tf file and it is *not* provided when the module is called you will receive an error when running terraform [plan|apply].
 
-**Note**: Additional variables can be provided to the module when it is called even without being defined in the variables.tf file; however, any additional variables will not be available for use. They simply don't cause a syntax error.
+.. note::
+   Additional variables can be provided to the module when it is called even without being defined in the variables.tf file; however, any additional variables will not be available for use. They simply don't cause a syntax error.
 
 ./vars.tf
 ---------
