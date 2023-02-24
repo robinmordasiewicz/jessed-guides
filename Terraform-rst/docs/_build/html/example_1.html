@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Example #1 - Simple variables and output &#8212; Day 0 Beginners Guide to Terraform 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example #2 - object output" href="example_2.html" />
+    <link rel="prev" title="Tips and Tricks" href="Tips_and_Tricks.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="example-1-simple-variables-and-output">
+<h1>Example #1 - Simple variables and output<a class="headerlink" href="#example-1-simple-variables-and-output" title="Permalink to this heading">¶</a></h1>
+<p>The following example shows the Terraform code to:</p>
+<ol class="arabic simple">
+<li><p>Define an input variable called ‘prefix’</p></li>
+<li><p>Create a local value called ‘rg_name’ that incorporates the value of the ‘prefix’ variable</p></li>
+<li><p>Create a <a class="reference external" href="https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource">null-resource</a> to call the command-line ‘echo’ command to print the values of the variable and local value</p></li>
+<li><p>Create Terraform Output blocks that show the values of the variable and the local value</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span> <span class="s2">&quot;prefix&quot;</span> <span class="p">{</span>
+  <span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;ProjectName&quot;</span>
+<span class="p">}</span>
+
+<span class="nb">locals</span> <span class="p">{</span>
+  <span class="n">rg_name</span> <span class="o">=</span> <span class="s2">&quot;$</span><span class="si">{var.prefix}</span><span class="s2">-RG&quot;</span>
+<span class="p">}</span>
+
+<span class="n">resource</span> <span class="s2">&quot;null_resource&quot;</span> <span class="s2">&quot;call_echo&quot;</span> <span class="p">{</span>
+  <span class="n">provisioner</span> <span class="s2">&quot;local-exec&quot;</span> <span class="p">{</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;echo </span><span class="se">\&quot;</span><span class="s2">The object prefix is $</span><span class="si">{var.prefix}</span><span class="s2"> and the rg_name is $</span><span class="si">{local.rg_name}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">output</span> <span class="s2">&quot;prefix_name&quot;</span> <span class="p">{</span>
+  <span class="n">value</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">prefix</span>
+<span class="p">}</span>
+
+<span class="n">output</span> <span class="s2">&quot;object_name&quot;</span> <span class="p">{</span>
+  <span class="n">value</span> <span class="o">=</span> <span class="n">local</span><span class="o">.</span><span class="n">rg_name</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>NOTE</strong>: Terraform Runs that only involve built-in providers like <em>null-resource</em> do not require <em>terraform</em> or <em>provider</em> blocks. This makes it very easy to create trivial runs for the purpose of testing Terraform syntax and behavior. The example above was something I wrote when I first started using Terraform to test the use of a <a class="reference external" href="https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource">null-resource</a>.</p>
+<section id="lab">
+<h2>Lab<a class="headerlink" href="#lab" title="Permalink to this heading">¶</a></h2>
+<p>Now we’re going to run through the one and only lab including with this beginners guide. This is simply to demonstrate the expected output of each of the main terraform commands that you’ll use when creating yoru own Runs.  To run this example you can either use the code in the ./example_1/ directory, which matches the example above, or create a new directory and copy/paste the example above into a file called <em>main.tf</em>.</p>
+<section id="terraform-init">
+<h3>terraform init<a class="headerlink" href="#terraform-init" title="Permalink to this heading">¶</a></h3>
+<p>In the directory with the <em>main.tf</em>, initialize Terraform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">init</span>
+</pre></div>
+</div>
+<p>Once that command completes you’ll have a new hidden directory and a new hidden file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ls -lA
+total 16
+drwxr-xr-x@ 3 driskill  1437522721    96 Oct 26 15:21 .terraform
+-rw-r--r--@ 1 driskill  1437522721  1152 Oct 26 15:21 .terraform.lock.hcl
+-rw-r--r--@ 1 driskill  1437522721   359 Oct 15 11:53 main.tf
+</pre></div>
+</div>
+</section>
+<section id="terraform-plan">
+<h3>terraform plan<a class="headerlink" href="#terraform-plan" title="Permalink to this heading">¶</a></h3>
+<p>Now we’ll run the ‘terraform plan’. Technically this is an optional step as the ‘terraform apply’ will go through the same process out of necessity; however, finding problems <em>before</em> you starting deploying resources is always better. For that reason I recommend running ‘terraform plan’ prior to every ‘terraform apply’.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">plan</span>
+</pre></div>
+</div>
+<p>The output of the ‘terraform plan’ command will show everything Terraform will attempt to do when you run the ‘apply’. Dynamic values will be replaced with placeholders that say ‘known at apply’. Here is the output from the above ‘terraform plan’ operation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Terraform</span> <span class="n">used</span> <span class="n">the</span> <span class="n">selected</span> <span class="n">providers</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">the</span> <span class="n">following</span> <span class="n">execution</span> <span class="n">plan</span><span class="o">.</span> <span class="n">Resource</span> <span class="n">actions</span> <span class="n">are</span> <span class="n">indicated</span> <span class="k">with</span> <span class="n">the</span>
+<span class="n">following</span> <span class="n">symbols</span><span class="p">:</span>
+  <span class="o">+</span> <span class="n">create</span>
+
+<span class="n">Terraform</span> <span class="n">will</span> <span class="n">perform</span> <span class="n">the</span> <span class="n">following</span> <span class="n">actions</span><span class="p">:</span>
+
+  <span class="c1"># null_resource.call_echo will be created</span>
+  <span class="o">+</span> <span class="n">resource</span> <span class="s2">&quot;null_resource&quot;</span> <span class="s2">&quot;call_echo&quot;</span> <span class="p">{</span>
+      <span class="o">+</span> <span class="nb">id</span> <span class="o">=</span> <span class="p">(</span><span class="n">known</span> <span class="n">after</span> <span class="n">apply</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="n">Plan</span><span class="p">:</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">add</span><span class="p">,</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">change</span><span class="p">,</span> <span class="mi">0</span> <span class="n">to</span> <span class="n">destroy</span><span class="o">.</span>
+
+<span class="n">Changes</span> <span class="n">to</span> <span class="n">Outputs</span><span class="p">:</span>
+  <span class="o">+</span> <span class="n">object_name</span> <span class="o">=</span> <span class="s2">&quot;ProjectName-RG&quot;</span>
+  <span class="o">+</span> <span class="n">prefix_name</span> <span class="o">=</span> <span class="s2">&quot;ProjectName&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="terraform-apply">
+<h3>terraform apply<a class="headerlink" href="#terraform-apply" title="Permalink to this heading">¶</a></h3>
+<p>And finally we will run ‘terraform apply’. Optionally you can add the ‘–auto-approve’ argument to avoid the standard manual approval:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">apply</span> <span class="o">--</span><span class="n">auto</span><span class="o">-</span><span class="n">approve</span>
+</pre></div>
+</div>
+<p>Here is the output of the ‘apply’ command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ terraform apply --auto-approve
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # null_resource.call_echo will be created
+  + resource &quot;null_resource&quot; &quot;call_echo&quot; {
+      + id = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + object_name = &quot;ProjectName-RG&quot;
+  + prefix_name = &quot;ProjectName&quot;
+null_resource.call_echo: Creating...
+null_resource.call_echo: Provisioning with &#39;local-exec&#39;...
+null_resource.call_echo (local-exec): Executing: [&quot;/bin/sh&quot; &quot;-c&quot; &quot;echo \&quot;The object prefix is ProjectName and the rg_name is ProjectName-RG\&quot;&quot;]
+null_resource.call_echo (local-exec): The object prefix is ProjectName and the rg_name is ProjectName-RG
+null_resource.call_echo: Creation complete after 0s [id=5577006791947779410]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+object_name = &quot;ProjectName-RG&quot;
+prefix_name = &quot;ProjectName&quot;
+</pre></div>
+</div>
+<p>You’ll also find a new file in the directory called <em>terraform.state</em>. As promised, this is a JSON-formatted text file containing everything Terraform knows about the current deployment. We are only creating a variable, a local value, and a null-resource so this state file is quite small; however, the size grows very quickly once you start working with multi-resource Runs.</p>
+<p>At this point you can inspect the various resources Terraform created using the ‘terraform state list’ and ‘terraform state show &lt;name&gt;’ commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ terraform state list
+null_resource.call_echo
+$ terraform state show null_resource.call_echo
+# null_resource.call_echo:
+resource &quot;null_resource&quot; &quot;call_echo&quot; {
+    id = &quot;5577006791947779410&quot;
+}
+</pre></div>
+</div>
+</section>
+<section id="terraform-destroy">
+<h3>terraform destroy<a class="headerlink" href="#terraform-destroy" title="Permalink to this heading">¶</a></h3>
+<p>Finally, we’re going to ‘destroy’ the Resources created by this run with the ‘terraform destroy’ command. Like the ‘terraform apply’ command, the ‘terraform –destroy’ command supports the ‘–auto-approve’ command-line argument:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ terraform destroy --auto-approve
+null_resource.call_echo: Refreshing state... [id=5577006791947779410]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the
+following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # null_resource.call_echo will be destroyed
+  - resource &quot;null_resource&quot; &quot;call_echo&quot; {
+      - id = &quot;5577006791947779410&quot; -&gt; null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+
+Changes to Outputs:
+  - object_name = &quot;ProjectName-RG&quot; -&gt; null
+  - prefix_name = &quot;ProjectName&quot; -&gt; null
+null_resource.call_echo: Destroying... [id=5577006791947779410]
+null_resource.call_echo: Destruction complete after 0s
+
+Destroy complete! Resources: 1 destroyed.
+</pre></div>
+</div>
+<p>If you look in the directory now you’ll see that the ‘terraform.state’ file is smaller, which is because we have no more created resources. You’ll also notice a new file called ‘terraform.state.backup’. The <em>terraform.state.backup</em> file is a copy of the ‘terraform.state’ file created immediately before any changes were made.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Day 0 Beginners Guide to Terraform</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Providers.html">Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Registry.html">Registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configurations.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Runs.html">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Initialization.html">Initialization: <cite>terraform init</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Execution.html">Execution: Plan, Apply, Destroy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tips_and_Tricks.html">Tips and Tricks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example #1 - Simple variables and output</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lab">Lab</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#terraform-init">terraform init</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terraform-plan">terraform plan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terraform-apply">terraform apply</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terraform-destroy">terraform destroy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example #2 - object output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example #3 - module creation and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_4.html">Example #4 - module usage with ternary conditional and ‘count’ meta-argument</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Tips_and_Tricks.html" title="previous chapter">Tips and Tricks</a></li>
+      <li>Next: <a href="example_2.html" title="next chapter">Example #2 - object output</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jesse Driskill.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/example_1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

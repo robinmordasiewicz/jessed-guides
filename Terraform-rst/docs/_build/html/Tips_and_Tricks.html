@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Tips and Tricks &#8212; Day 0 Beginners Guide to Terraform 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example #1 - Simple variables and output" href="example_1.html" />
+    <link rel="prev" title="Execution: Plan, Apply, Destroy" href="Execution.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="tips-and-tricks">
+<h1>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permalink to this heading">¶</a></h1>
+<p>Terraform has a few execution quirks that can become bothersome with frequent usage. One example is that both ‘terraform apply’ and ‘terraform destroy’ require an interactive approval. Bypassing this is possible with the use of the ‘–auto-approve’ argument, but that’s a lot to be typing everytime you want to perform or clean-up a terraform run. (And, being exceptionally lazy, I don’t want to be typing that much every time I run a terraform command.) So what follows are the Bash aliases I use with terraform, as well as a few other things I do to a) simplify terraform usage and b) diagnose problems with terraform runs.</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#bash-aliases"><span class="std std-ref">Bash aliases</span></a></p></li>
+<li><p><a class="reference internal" href="#terraform-state"><span class="std std-ref">Terraform State</span></a></p></li>
+<li><p><a class="reference internal" href="#azure-terraform-state-trick"><span class="std std-ref">Azure Terraform State Trick</span></a></p></li>
+<li><p><a class="reference internal" href="#selective-apply-destroy"><span class="std std-ref">Selective apply / destroy</span></a></p></li>
+<li><p><a class="reference internal" href="#terraform-state-file-manipulation"><span class="std std-ref">Terraform State file manipulation</span></a></p></li>
+<li><p><a class="reference internal" href="#using-terraform-with-git"><span class="std std-ref">Using Terraform with Git</span></a></p></li>
+</ol>
+<section id="bash-aliases">
+<h2>Bash aliases<a class="headerlink" href="#bash-aliases" title="Permalink to this heading">¶</a></h2>
+<p>Bash aliases are a way to create Bash commands that call actual programs. Bash aliases are defined as so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">alias_name</span><span class="o">=</span><span class="s2">&quot;command_to_run &lt;arguments&gt;&quot;</span>
+</pre></div>
+</div>
+<p>Aliases are usually placed in a file that will be sourced by Bash during initialization, such as the ~/.bashrc, ~/.profile, or ~/.bash_aliases. Here is the full contents of my ~/.terraform_aliases.bash file, which is source from ~/.bashrc during Bash initialization:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alias</span> <span class="n">tf</span><span class="o">=</span><span class="s1">&#39;terraform&#39;</span>
+<span class="n">alias</span> <span class="n">tfaa</span><span class="o">=</span><span class="s1">&#39;terraform apply -auto-approve&#39;</span>
+<span class="n">alias</span> <span class="n">tfda</span><span class="o">=</span><span class="s1">&#39;terraform destroy -auto-approve&#39;</span>
+<span class="n">alias</span> <span class="n">tfi</span><span class="o">=</span><span class="s1">&#39;terraform init&#39;</span>
+<span class="n">alias</span> <span class="n">tfp</span><span class="o">=</span><span class="s1">&#39;terraform plan&#39;</span>
+</pre></div>
+</div>
+<p>This command in my ~/.bashrc sources the ~/.terraform_aliases.bash file, ensuring that these aliases are present every time I open a terminal.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~/.</span><span class="n">terraform_aliases</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p><strong>NOTE</strong>: The aliases could just as easily be located directly in the ~/.bashrc rather than being sourced. I source the file rather than having them in ~/.bashrc because I have (literally) hundreds of aliases, and breaking them into separate files helps keep them organized.</p>
+<p>To use an alias you just type the alias name as if it were a command. To use the ‘tfaa’ alias I would enter the following on the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tfaa</span>
+</pre></div>
+</div>
+<p>…which would be the same as typing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">apply</span> <span class="o">--</span><span class="n">auto</span><span class="o">-</span><span class="n">approve</span>
+</pre></div>
+</div>
+</section>
+<section id="terraform-state">
+<h2>Terraform State<a class="headerlink" href="#terraform-state" title="Permalink to this heading">¶</a></h2>
+<p>Terraform keeps track of the state of configured resources using a file called <a class="reference external" href="https://developer.hashicorp.com/terraform/language/state">terraform.state</a>, which is a JSON-formatted text file containing all of the attributes of every resource deployed by a Terraform Run. The ‘terraform.state’ file <em>can</em> be examined by using a tool like <a class="reference external" href="https://stedolan.github.io/jq/">jq</a>; however, Terraform provides a set of commands for viewing the resources in the terraform.state file to view the current state of the Run.</p>
+<p>You can list the resources in the terraform.state file with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">state</span> <span class="nb">list</span>
+</pre></div>
+</div>
+<p>Here is the output of ‘terraform state list’ for what is deployed by deploying <a class="reference external" href="example_4.html">Example 4</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tf state list
+module.rg[0].azurerm_resource_group.rg
+module.rg[1].azurerm_resource_group.rg
+module.rg[2].azurerm_resource_group.rg
+</pre></div>
+</div>
+<p>You can also view details of each object by using ‘terraform state show <em>object_name</em>, as shown here:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tf state show module.rg`0 .azurerm_resource_group.rg
+# module.rg`0 .azurerm_resource_group.rg:
+resource &quot;azurerm_resource_group&quot; &quot;rg&quot; {
+    id       = &quot;/subscriptions/0f92c295-b01d-47ab-a709-1868040254df/resourceGroups/my_lab-1-rg&quot;
+    location = &quot;westus2&quot;
+    name     = &quot;my_lab-1-rg&quot;
+}
+</pre></div>
+</div>
+<p>Examining the state of an object in Terraform is particularly useful when you need to use an attribute of an object that isn’t well defined in the resource documentation. This doesn’t come up often, but when it does being able to examine the object to see what attributes you can access is extremely helpful. Any resource attribute you can see in the terraform.state file is usable within Terraform code.</p>
+<section id="azure-terraform-state-trick">
+<h3>Azure Terraform State Trick<a class="headerlink" href="#azure-terraform-state-trick" title="Permalink to this heading">¶</a></h3>
+<p>My favorite aspect of the ‘terraform.state’ file is that it is the <strong>sole</strong> source of truth for Terraform. This means that if you want to completely reset Terraform’s “view” of the current run all you need to do is delete or rename this file. Why is this great? Well, sometimes destroying a complex environment deployed by Terraform can take a really long time. I’ve been stuck waiting for an Azure lab to be destroyed for 15+ minutes in the past. (This is actually an Azure responsiveness issue rather than an Terraform issue, but knowing that doesn’t make the time go by any faster.)</p>
+<p>If you organize your lab naming scheme around a single <em>prefix</em> value that is incorporated into the name of all objects created by that run, what you can do to save time is just go to the Azure Portal and delete the resource-group(s) created by your Terraform Run. Then delete the ‘terraform.state’ file itself. Finally, change the <em>prefix</em> you are using with all of your object names. At this point all of the following will be true:</p>
+<ol class="arabic simple">
+<li><p>Azure will be deleting the Resource-Group and all of the objects it contains. It won’t matter if this takes two minutes or an hour because…</p></li>
+<li><p>Terraform will believe nothing is deployed because there is no state file. You can immediately begin testing your most recent changes to the Terraform configuration because…</p></li>
+<li><p>With the new prefix none of the object names Terraform attempts to deploy will collide with existing objects.</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>Technically the concern regarding name collisions only applies to the resource-group name itself; however, there are a couple other objects that also require globally (or at least, organizationally) unique names, such as Log Analytics Workbooks and Storage Accounts.</p></li>
+</ul>
+</div></blockquote>
+<p>Using this trick will spare you a lot of time if you start to create Terraform Runs with many levels of dependencies.</p>
+<p><strong>NOTE</strong>: This trick is only really only useful when you are working in an environment that allows a simple, hands-off group deletion option, like deleting an Azure Resource-Group or Kubernetes namesspace. GCP, and especially AWS, have no simple administrative container that can be deleted at-will to destroy all of the grouped objects.</p>
+<p><strong>WARNING</strong>: The corallary to the note above is that you should avoid deleting your terraform state file in all other cases; especially when working with AWS or GCP. I once had a corrupted deployment to AWS that caused the ‘terraform destroy’ command to fail due to an AWS error, so I had to track down every oject I had deployed with Terraform and delete them all manually. This was an incredible PITA. Deleting your terraform.state file without first running the ‘terraform destroy’ command will result in the same thing: to clean up your deployed resources you’ll end up having to track all of them down to manually delete them. You have been warned.</p>
+</section>
+</section>
+<section id="selective-apply-destroy">
+<h2>Selective apply / destroy<a class="headerlink" href="#selective-apply-destroy" title="Permalink to this heading">¶</a></h2>
+<p>You can restrict Terraform to deploying or destroying specific objects by using the ‘–target=&lt;resource_name&gt;’ command-line argument. This can be particularly useful if you have a large Run and are trying to debug or test one of the final resources being deployed. (i.e. trying to debug the cloud-init being used with BIG-IP). In those cases all of the time necessary to destroy, then re-deploy, all of the resources that the BIG-IP depends on is effectively wasted time - all you <em>need</em> to destroy and re-deploy is the BIG-IP itself. This is not an uncommon scenario, and the answer is the ‘–target=&lt;name&gt;’ argument.</p>
+<p>To use –target=name you enter the terraform destroy or plan command like you normally would, but you add the ‘–target=’ argument afterwards. For example, let’s say my BIG-IP is deployed in a module called ‘bigip’. I can destroy all of the objects related to that object alone by using the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">destroy</span> <span class="o">--</span><span class="n">auto</span><span class="o">-</span><span class="n">approve</span> <span class="o">--</span><span class="n">target</span><span class="o">=</span><span class="n">module</span><span class="o">.</span><span class="n">bigip</span>
+</pre></div>
+</div>
+<p>That command will destroy the resources created in my ‘bigip’ module and nothing else.</p>
+<p><strong>NOTE</strong>: If the resource you are trying to destroy in this way is a dependency of a later resource, the command will fail.</p>
+<p>To re-deploy I have two options:
+#. Use the ‘–target=’ argument again when running the ‘terraform apply’ command
+#. Run ‘terraform apply [–auto-approve]’ without the ‘–target=’ argument and jsut let Terraform deploy everything that isn’t already deployed (as per the terraform.state file).</p>
+<p><strong>NOTE</strong>: According to Terraform the ‘–target=&lt;name&gt;’ argument should only be used for debugging/testing.</p>
+</section>
+<section id="terraform-state-file-manipulation">
+<h2>Terraform State file manipulation<a class="headerlink" href="#terraform-state-file-manipulation" title="Permalink to this heading">¶</a></h2>
+<p>It is possible to manually remove objects from the state file without destroying them. This only comes up rarely, but if you find yourself in a position where it is important you can do this with the <strong>terraform state rm &lt;resource_name&gt;</strong> command</p>
+</section>
+<section id="using-terraform-with-git">
+<h2>Using Terraform with Git<a class="headerlink" href="#using-terraform-with-git" title="Permalink to this heading">¶</a></h2>
+<p>It is extremely common to use Git to provide source control for Terraform configurations. Entire DevOps ecosystems have been created around this relationship, and I would be remiss to not include a section on some best-practices related to the <strong>.gitignore</strong> file.</p>
+<p>As you almost certainly know, the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file is used to exclude files from being included by git, and there are some files you really don’t want included in your git repository. I’ve provided a list of these files below and urge you to use the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to exclude them.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>.terraform/</dt><dd><ul>
+<li><p>Directory containing the dowloaded Providers and files pertaining to the modules defined in your Terraform configuration.</p></li>
+<li><p>Add the following to .gitignore: <code class="docutils literal notranslate"><span class="pre">.terraform*</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>.terraform.lock.hcl</dt><dd><ul>
+<li><p>File containing a list of the downloaded Providers and the hashes associated with each</p></li>
+<li><dl class="simple">
+<dt>Add the following to .gitignore: <em>.terraform*</em></dt><dd><ul>
+<li><p><em>.terraform*</em> excludes both the <em>.terraform.lock.hcl</em> file and the <em>.terraform/</em> directory</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>.terraform.tfstate &amp; .terraform.tfstate.backup</dt><dd><ul>
+<li><p>File containing the current state of any resources deployed by Terraform (see above)</p></li>
+<li><dl class="simple">
+<dt>Add the following to .gitignore: <code class="docutils literal notranslate"><span class="pre">terraform.tfstate*</span></code></dt><dd><ul>
+<li><p>Excludes both the <em>terraform.tfstate</em> and the <em>terraform.tfstate.backup</em> files.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>More complex Terraform configurations might include an output directory for post-procesing template files, as well as a directory within which those template files might be stored. I names those directories <em>work_tmp</em> and <em>templates</em>, respectively. The <em>templates</em> directory should be included in a Git repository; however, the directory containing the post-processing versions of those templates should not, so I add that directory to my .gitignore.</p>
+<p>The complete list of .gitignore additions would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">terraform</span><span class="o">*</span>
+<span class="o">.</span><span class="n">terraform</span><span class="o">.</span><span class="n">tfstate</span><span class="o">*</span>
+<span class="n">work_tmp</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Day 0 Beginners Guide to Terraform</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Providers.html">Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Registry.html">Registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configurations.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Runs.html">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Initialization.html">Initialization: <cite>terraform init</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Execution.html">Execution: Plan, Apply, Destroy</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tips and Tricks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bash-aliases">Bash aliases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#terraform-state">Terraform State</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#azure-terraform-state-trick">Azure Terraform State Trick</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#selective-apply-destroy">Selective apply / destroy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#terraform-state-file-manipulation">Terraform State file manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-terraform-with-git">Using Terraform with Git</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example_1.html">Example #1 - Simple variables and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example #2 - object output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example #3 - module creation and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_4.html">Example #4 - module usage with ternary conditional and ‘count’ meta-argument</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Execution.html" title="previous chapter">Execution: Plan, Apply, Destroy</a></li>
+      <li>Next: <a href="example_1.html" title="next chapter">Example #1 - Simple variables and output</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jesse Driskill.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Tips_and_Tricks.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

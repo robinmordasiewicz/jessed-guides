@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Variables &#8212; Day 0 Beginners Guide to Terraform 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Initialization: terraform init" href="Initialization.html" />
+    <link rel="prev" title="Run" href="Runs.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="variables">
+<h1>Variables<a class="headerlink" href="#variables" title="Permalink to this heading">¶</a></h1>
+<p><a class="reference external" href="https://www.terraform.io/language/values/variables">Variables</a> are just that. They are provided to the various <a class="reference external" href="https://www.terraform.io/docs/glossary#terraform-configuration">configurations</a> in lieu of static values to allow for simpler description of what should be deployed. That said, variables in Terraform are a source of frequent confusion and much gnashing of teeth.</p>
+<p>There are two basic types of varibales: <a class="reference external" href="https://www.terraform.io/language/values/variables">input variables</a> and <a class="reference external" href="https://www.terraform.io/language/values/locals">local values</a>.</p>
+<section id="id2">
+<h2>Input Variables<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="https://www.terraform.io/language/values/variables">Input variables</a> are provided via configuration files, on the CLI, or pulled from environment variables. These are immutable (i.e. cannot be changed once defined), and they are defined when Terraform is executed. Dynamic values cannot be used, nor can one input variable receive its value from another input variable. These are static, immutable, and defined at run-time.</p>
+</section>
+<section id="id4">
+<h2>Local Values<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference external" href="https://www.terraform.io/language/values/locals">Local values</a> are also immutable, however these can receive dynamically generated values rather than static values. Unlike Input variables, local values can use other variables as part of the value.</p>
+</section>
+<section id="variable-usage">
+<h2>Variable Usage<a class="headerlink" href="#variable-usage" title="Permalink to this heading">¶</a></h2>
+<p>Here is a simple example illustrating the defintion of both:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span> <span class="s2">&quot;prefix&quot;</span> <span class="p">{</span> <span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;my_prefix&quot;</span> <span class="p">}</span>
+<span class="nb">locals</span> <span class="p">{</span> <span class="n">vnet_name</span> <span class="o">=</span> <span class="s2">&quot;$</span><span class="si">{var.prefix}</span><span class="s2">-vnet&quot;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>The variable “prefix” would contain the value <em>my_prefix</em>, and the local value “vnet_name” would contain the value <em>my_prefix-vnet</em>. However, you would <em>not</em> be able to define input variable that leverage the existing value of the <em>prefix</em> variable.</p>
+<blockquote>
+<div><p>Tip: All Input variable names are referenced using the ‘var.’ prefix, and all local values are referenced using the ‘local.’ prefix.</p>
+</div></blockquote>
+<section id="defining-variables">
+<h3>Defining Variables<a class="headerlink" href="#defining-variables" title="Permalink to this heading">¶</a></h3>
+<p>The number of variables in a moderately complex Terraform configuration can be quite large. For this reason there are several methods of breaking up your variables into different files. The benefit of this approach is that you can isolate the variables that apply to one group of objects in their own file, making it easier to find them if/when you decide to change something.</p>
+<p>By default Terraform will source certain files for variable definitions:</p>
+<ul class="simple">
+<li><p>vars.tf</p></li>
+<li><p>variables.tf</p></li>
+<li><p>terraform.tfvars</p></li>
+<li><p>terraform.tfvars.json</p></li>
+</ul>
+<p>Additional files can be specified on the CLI using the *-var-file* option as shown here:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">terraform</span> <span class="n">apply</span> <span class="o">-</span><span class="n">var</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="s2">&quot;my_variables.tfvars&quot;</span>
+</pre></div>
+</div>
+<p>That syntax applies to files with the following extensions:
+* .tfvars
+* .tfvars.json</p>
+<p>To simplify the import of additional variable files you can insert “.auto” between the filename and the “.tfvars” or “.tfvars.json” extension. Naming them this way removes the need to specify the filenames using the ‘-var-file’ CLI option.</p>
+<p><strong>Important Take-away</strong></p>
+<p>The names of variables defined in *.tfvars or *.auto.tfvars files must be pre-defined in one of the automatic variable files. For example, if I have a variable called “bigip” in a file called “v_bigip.auto.tfvars”, an empty “placeholder” variable defining that name must be located in one of the files that is imported automatically. Here is an example of how I would import a variable file called “v_bigip.auto.tfvars” containing a variable called “bigip”:</p>
+<p><strong>vars.tf</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span> <span class="s2">&quot;bigip&quot;</span>   <span class="p">{}</span>
+</pre></div>
+</div>
+<p><strong>v_bigip.auto.tfvars</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bigip</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">name</span>   <span class="o">=</span> <span class="s2">&quot;my_ltm_01&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Terraform will recognize a variable named “bigip” containing a nested variable called “use_paygo” with a string value of “my_ltm_01”. If the placeholder variable is not present the variable(s)`_ within the v_bigip.auto.tfvars file would not be included. You would also get a runtime error when Terraform attempts to import the variables define in the “v_bigip.auto.tfvars” file.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Day 0 Beginners Guide to Terraform</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Providers.html">Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Registry.html">Registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configurations.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Runs.html">Run</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Input Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Local Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variable-usage">Variable Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-variables">Defining Variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Initialization.html">Initialization: <cite>terraform init</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Execution.html">Execution: Plan, Apply, Destroy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tips_and_Tricks.html">Tips and Tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_1.html">Example #1 - Simple variables and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example #2 - object output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example #3 - module creation and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_4.html">Example #4 - module usage with ternary conditional and ‘count’ meta-argument</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Runs.html" title="previous chapter">Run</a></li>
+      <li>Next: <a href="Initialization.html" title="next chapter">Initialization: <cite>terraform init</cite></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jesse Driskill.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Variables.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

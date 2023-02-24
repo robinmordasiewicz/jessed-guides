@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Registry &#8212; Day 0 Beginners Guide to Terraform 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configurations" href="Configurations.html" />
+    <link rel="prev" title="Providers" href="Providers.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="registry">
+<h1>Registry<a class="headerlink" href="#registry" title="Permalink to this heading">¶</a></h1>
+<p>Terraform Providers are retrieved from a Registry. The official Hashicorp Terraform registry is <a class="reference external" href="https://registry.terraform.io/">registry.terraform.io</a>, which is used to download Providers for which a more specific source location is not provided. All of the examples shown on the <a class="reference external" href="Providers.html">Providers</a> page will use this default registry when downloading the specified providers.</p>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h2>
+<p>In addition to making the providers available for download by Terraform, the registry is also where the official documentation for each provider is located. For example, the documentation for the Azure provider is located at <a class="reference external" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs">https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs</a>. The link above is for the latest version of the Provider but the documentation for earlier versions can be viewed with the dropdown at the top of the page.</p>
+<p><strong>NOTE</strong>: When creating or modifying a Terraform plan the documentation in the Registry is best documentation resource without question. It is very rare that I have to look elsewhere for help with getting a Resource to work.</p>
+</section>
+<section id="example-configurations">
+<h2>Example Configurations<a class="headerlink" href="#example-configurations" title="Permalink to this heading">¶</a></h2>
+<p>All, or nearly all, resources supported by a provider are documented on the provider documentation page. Further, nearly all of the examples show you not just the usage of the specific resource but also include examples of any pre-requisite resources necessary to make use of the resource. For instance, the documentation at <a class="reference external" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine">azurerm_linux_virtual_machine</a> also includes examples for every resource necessary to use it.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group">azurerm_resource_group</a></p></li>
+<li><p><a class="reference external" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network">azurerm_virtual_network</a></p></li>
+<li><p><a class="reference external" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet">azurerm_subnet</a></p></li>
+<li><p><a class="reference external" href="https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface">azurerm_network_interface</a></p></li>
+</ul>
+<p>All of which are pre-requisites to creating a azurerm_linux_virtual_machine resource.</p>
+<p>All of the resource configuration options (input) and attributes are shown below the examples.</p>
+<p><strong>NOTE</strong>: When having a problem working with a resource it is frequently helpful to take a look at pages that require that resource. The configuration of other resources that require the one you are working with will include their own examples, and sometimes those examples enhance the examples in the documentation page. This situation isn’t common, but I have encountered it enough times that this is one of the first things I do when I have a resource that repeatedly fails to deploy with some cryptic error message.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Day 0 Beginners Guide to Terraform</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Providers.html">Providers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Registry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-configurations">Example Configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Configurations.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Runs.html">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Initialization.html">Initialization: <cite>terraform init</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Execution.html">Execution: Plan, Apply, Destroy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tips_and_Tricks.html">Tips and Tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_1.html">Example #1 - Simple variables and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example #2 - object output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example #3 - module creation and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_4.html">Example #4 - module usage with ternary conditional and ‘count’ meta-argument</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Providers.html" title="previous chapter">Providers</a></li>
+      <li>Next: <a href="Configurations.html" title="next chapter">Configurations</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jesse Driskill.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Registry.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

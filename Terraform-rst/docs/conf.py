@@ -1,4 +1,6 @@
 # Configuration file for the Sphinx documentation builder.
+import os
+import sys
 
 # -- Project information
 
@@ -40,3 +42,7 @@ templates_path = ['_templates']
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
+
+# -- Inlude links on every page
+CURDIR = os.path.abspath(os.path.dirname(__file__))
+rst_epilog = open(os.path.join(CURDIR, 'rst_epilog.inc'),'r').read()

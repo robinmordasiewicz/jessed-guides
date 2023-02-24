@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Initialization: terraform init &#8212; Day 0 Beginners Guide to Terraform 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Execution: Plan, Apply, Destroy" href="Execution.html" />
+    <link rel="prev" title="Variables" href="Variables.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="initialization-terraform-init">
+<h1>Initialization: <cite>terraform init</cite><a class="headerlink" href="#initialization-terraform-init" title="Permalink to this heading">¶</a></h1>
+<p>When you run ‘terraform init’ Terraform will read all of the configuration files in your current directory and download all of the required <em>providers</em> for you. These will be placed in a directory called ‘.terraform/providers/…’. It will also identify every <a class="reference external" href="https://www.terraform.io/docs/glossary#module">module</a> used in your configuration and write the list to ‘.terraform/modules/modules.json’.</p>
+<p>When you run ‘terraform init’ Terraform reads every file that ends with ‘.tf’ in the current directory and looks for a block called  ‘terraform’, which contains a sub-block called ‘required_providers’. The ‘required_providers’ block contains a list of every 3rd party “provider” required by your terraform configuration. It does not need to include default terraform providers - only 3rd party providers that provide additional functionality.</p>
+<p><strong>Important Take-away</strong>
+The first thing to understand here is that, other than the Terraform package itself, <strong>nothing is manually downloaded</strong>. Terraform will automatically download the components it requires when it is <em>initialized</em>. (I spent a humiliating amount of time figuring this out.) The second thing to understand is that Terraform initialization <em>is not the first step</em> in creating a new plan/deployment. Counter-intuitively, terraform initialization takes place after you’ve written all of the code and right before you actually try to run the plan to do something.</p>
+<p><strong>Note</strong>: Running <cite>terraform init</cite> does not verify that your code is without flaws or actually does anything at all. It <em>does</em> perform a basic syntax check, but that’s it.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Day 0 Beginners Guide to Terraform</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Providers.html">Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Registry.html">Registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Configurations.html">Configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Runs.html">Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Initialization: <cite>terraform init</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Execution.html">Execution: Plan, Apply, Destroy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tips_and_Tricks.html">Tips and Tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_1.html">Example #1 - Simple variables and output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example #2 - object output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example #3 - module creation and usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_4.html">Example #4 - module usage with ternary conditional and ‘count’ meta-argument</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Variables.html" title="previous chapter">Variables</a></li>
+      <li>Next: <a href="Execution.html" title="next chapter">Execution: Plan, Apply, Destroy</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Jesse Driskill.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Initialization.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
