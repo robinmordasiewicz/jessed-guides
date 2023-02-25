@@ -61,7 +61,7 @@ html_context = {
     "github_user": "robinmordasiewicz",
     "github_repo": "jessed-guides",
     "github_version": "main",
-    "conf_py_path": "/Terraform-rst/docs/",
+    "conf_py_path": "/docs/",
 }
 
 # -- Options for EPUB output
