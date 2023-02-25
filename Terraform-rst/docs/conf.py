@@ -4,7 +4,7 @@ import sys
 
 # -- Project information
 
-project = 'Beginners Guide to Terraform'
+project = 'Terraform Essentials'
 copyright = '2022, Jesse Driskill'
 author = 'Jesse Driskill'
 
