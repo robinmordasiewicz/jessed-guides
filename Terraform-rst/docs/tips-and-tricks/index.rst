@@ -16,3 +16,4 @@ Terraform has a few execution quirks that can become bothersome with frequent us
    terraform-git.rst
    terraform-state-file.rst
    terraform-state.rst
+   plugin_cache.rst

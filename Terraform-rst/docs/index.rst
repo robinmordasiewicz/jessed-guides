@@ -3,7 +3,7 @@ Beginners Guide to Terraform
 
 .. topic:: Beginners Guide to Terraform
 
-   This guide is a simple introduction to `Terraform <https://www.terraform.io/intro>`_, and we will be going over several of the basic elements of a basic Terraform deployment.
+   This guide is a simple introduction to `Terraform <https://www.terraform.io/intro>`_, 
 
 .. toctree::
 
@@ -29,6 +29,6 @@ This guide is intended to answer those very basic beginner questions, as well as
 Organization
 ------------
 
-This guide is broken into several small parts intended to let you skip the frustration of discovering them yourself. It definitely does not replace the `Terraform Documentation <https://www.terraform.io/intro>`_, but as you'll discover if you click the link, this guide will reduce the time you need to "internalize" how to use Terraform.
+This guide is broken into several small parts intended to reduce the time you need to get started with Terraform. For complete documentation visit `Terraform Documentation <https://www.terraform.io/intro>`_,
 
 

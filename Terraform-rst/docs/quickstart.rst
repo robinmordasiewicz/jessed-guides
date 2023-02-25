@@ -1,10 +1,6 @@
 Quick Start
 ===========
 
-.. topic:: tldr
-   
-   Get straight to the point !
-
 #. Create a file named hello-world.tf
 
    .. literalinclude:: ../terraform/hello-world.tf
