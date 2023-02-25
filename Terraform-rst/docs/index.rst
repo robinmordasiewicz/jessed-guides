@@ -16,7 +16,7 @@ Beginners Guide to Terraform
    runs.rst
    variables.rst
    commands/index.rst
-   tips_and_tricks.rst
+   tips-and-tricks/index.rst
    examples/index.rst
 
 Motivation
