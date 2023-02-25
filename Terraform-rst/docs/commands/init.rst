@@ -1,5 +1,5 @@
-Initialization
-==============
+Init
+====
 
 When you run 'terraform init' Terraform will read all of the configuration files in your current directory and download all of the required *providers* for you. These will be placed in a directory called '.terraform/providers/...'. It will also identify every `module <https://www.terraform.io/docs/glossary#module>`_ used in your configuration and write the list to '.terraform/modules/modules.json'.
 
@@ -10,5 +10,4 @@ When you run 'terraform init' Terraform reads every file that ends with '.tf' in
 
 .. note::
    Running `terraform init` does not verify that your code is without flaws or actually does anything at all. It *does* perform a basic syntax check, but that's it.
-
 
