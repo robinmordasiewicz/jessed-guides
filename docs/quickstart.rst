@@ -3,33 +3,21 @@ Quick Start
 
 #. Create a file named hello-world.tf
 
-   .. literalinclude:: ../terraform/hello-world.tf
-      :language: terraform
+   .. bash:: cat hello-world.tf
 
 #. Initialize your TF environment, which includes a basic syntax check.
 
-   .. bash:: ls -al
-      :timeout: 4
-
-   .. code-block:: bash
-
-      $ terraform init
+   .. bash:: terraform init
 
 #. Syntax, dependency, logic check.
 
-   .. code-block:: bash
-
-      $ terraform plan
+   .. bash:: terraform plan
 
 #. Deploy the configuration
 
-   .. code-block:: bash
-
-      $ terraform apply --auto-approve
+   .. bash:: terraform apply --auto-approve
 
 #. Delete deployed objects, reverses the order of operations.
 
-   .. code-block:: bash
-
-      $ terraform destroy --auto-approve
+   .. bash:: terraform destroy --auto-approve
 
