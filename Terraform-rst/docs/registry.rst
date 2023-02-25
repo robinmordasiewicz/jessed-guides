@@ -1,7 +1,7 @@
 Registry
 ========
 
-Terraform Providers are retrieved from a Registry. The official Hashicorp Terraform registry is `registry.terraform.io <https://registry.terraform.io/>`_, which is used to download Providers for which a more specific source location is not provided. All of the examples shown on the `providers`_ page will use this default registry when downloading the specified providers.
+Terraform Providers are retrieved from a Registry. The official Hashicorp Terraform registry is `registry.terraform.io <https://registry.terraform.io/>`_, which is used to download Providers for which a more specific source location is not provided. All of the examples shown on the :ref:`providers` page will use this default registry when downloading the specified providers.
 
 Documentation
 -------------

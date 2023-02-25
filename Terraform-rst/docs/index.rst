@@ -5,7 +5,6 @@ Beginners Guide to Terraform
 
    This guide is a simple introduction to `Terraform <https://www.terraform.io/intro>`_, and we will be going over several of the basic elements of a basic Terraform deployment.
 
-
 .. toctree::
 
    quickstart.rst
@@ -16,8 +15,7 @@ Beginners Guide to Terraform
    modules.rst
    runs.rst
    variables.rst
-   initialization.rst
-   execution.rst
+   commands/index.rst
    tips_and_tricks.rst
    examples/index.rst
 

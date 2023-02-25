@@ -1,3 +1,5 @@
+.. _tips-and-tricks:
+
 Tips and Tricks
 ===============
 
@@ -54,7 +56,7 @@ You can list the resources in the terraform.state file with:
 
     terraform state list
 
-Here is the output of 'terraform state list' for what is deployed by deploying `Example 4`_.
+Here is the output of 'terraform state list' for what is deployed by deploying :ref:`example4`.
 ::
 
     $ tf state list

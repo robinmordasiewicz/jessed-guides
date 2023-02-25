@@ -1,3 +1,5 @@
+.. _example4:
+
 Module usage with ternary conditional and 'count' meta-argument
 ===============================================================
 
