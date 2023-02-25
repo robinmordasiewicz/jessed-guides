@@ -67,5 +67,5 @@ To simplify the import of additional variable files, insert ".auto" between the 
       name   = "my_ltm_01"
     }
 
-Terraform will recognize a variable named "bigip" containing a nested variable called "use_paygo" with a string value of "my_ltm_01". If the placeholder variable is not present the variable(s)`_ within the v_bigip.auto.tfvars file would not be included. You would also get a runtime error when Terraform attempts to import the variables define in the "v_bigip.auto.tfvars" file.
+Terraform will recognize a variable named "bigip" containing a nested variable named "use_paygo" with a string value of "my_ltm_01". If the placeholder variable is not present the variable(s)`_ within the v_bigip.auto.tfvars file would not be included. A runtime error will be thrown when Terraform attempts to import the variables define in the "v_bigip.auto.tfvars" file.
 
