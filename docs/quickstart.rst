@@ -8,7 +8,7 @@ Quick Start
 
 #. Initialize your TF environment, which includes a basic syntax check.
 
-   .. bash:: terraform init
+   .. bash:: pwd
       :timeout: 4
 
    .. code-block:: bash
