@@ -2,4 +2,6 @@
 */*/_build/
 .DS_Store
 .terraform*
+*/.terraform*
 terraform.tfstate*
+*/terraform.tfstate*
