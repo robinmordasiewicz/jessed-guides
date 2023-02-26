@@ -14,8 +14,7 @@ For the complete documentation visit `Terraform <https://www.terraform.io/intro>
    life-cycle/index.rst
    language/index.rst
    core-concepts/index.rst
+   commands/index.rst
    tips-and-tricks/index.rst
    examples/index.rst
-
-
 
