@@ -1,0 +1,4 @@
+Apply
+=========
+
+It is one of the stages where it applies the changes in the real/current state of the infrastructure in order to move to the desired state.
