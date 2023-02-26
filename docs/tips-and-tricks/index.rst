@@ -8,7 +8,7 @@ Terraform has a few execution quirks that can become bothersome with frequent us
 .. toctree::
    :maxdepth: 1
    :numbered: 1
-   :glob:
+   :hidden:
 
    aliases.rst
    azure-terraform-state.rst

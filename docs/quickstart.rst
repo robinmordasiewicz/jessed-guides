@@ -1,6 +1,15 @@
 Quick Start
 ===========
 
+#. Create a new working folder for a Terraform project and change directory into the new folder.
+
+   .. bash:: mkdir terraform
+      :do-not-run:
+
+   .. bash:: cd terraform
+      :display-command:
+      :do-not-run:
+
 #. Create a file named hello-world.tf
 
    .. bash:: cat hello-world.tf

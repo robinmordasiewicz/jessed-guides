@@ -11,13 +11,7 @@ For the complete documentation visit `Terraform <https://www.terraform.io/intro>
    :hidden:
 
    quickstart.rst
-   providers.rst
-   registry.rst
-   configurations.rst
-   resources.rst
-   modules.rst
-   runs.rst
-   variables.rst
+   core-concepts/index.rst
    commands/index.rst
    tips-and-tricks/index.rst
    examples/index.rst

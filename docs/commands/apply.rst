@@ -1,4 +1,4 @@
-Apply
+apply
 =====
 
 `terraform apply <https://www.terraform.io/cli/commands/apply>`_ is used to actually apply your configuration. It goes through the same process as `terraform plan <https://www.terraform.io/cli/commands/plan>`_, but this time the changes are actually implemented. As the 'apply' is executed Terraform will be writing completed actions to the 'terraform.state' file. The 'terraform.state' file contains `state <https://www.terraform.io/language/state>`_ information about the current, successfully-deployed configuration. Only resources that are *successfully* deployed are written to the state file. This file is then used for if Terraform is called again to compare the current deployment with a changed configuration to determine what it actually has to do.
